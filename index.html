@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Espaço Recanto | Eventos Exclusivos em Camobi</title>
+  <title>Espaço Recanto | Agendamentos em Camobi</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Fontes do Google: Great Vibes (para a logo ER) e Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -17,193 +22,349 @@
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            logo: ['"Great Vibes"', 'cursive']
+          },
           colors: {
             brand: {
               dark: '#181A1B',      /* Grafite profundo */
-              card: '#222528',      /* Grafite suave */
-              gold: '#D4AF37',      /* Dourado logotipo/letreiro */
+              card: '#222528',      /* Grafite card */
+              gold: '#D4AF37',      /* Dourado logotipo */
               goldHover: '#B59228',
-              green: '#3F4E46',     /* Verde móveis planejados */
-              brick: '#C4704B'      /* Terracota tijolos */
+              green: '#3F4E46'      /* Verde oliva móveis */
             }
           }
         }
       }
     }
   </script>
+  <style>
+    /* Estilização customizada para o calendário de data */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.8) sepia(1) saturate(5) hue-rotate(5deg);
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body class="bg-brand-dark text-gray-100 font-sans antialiased selection:bg-brand-gold selection:text-black">
+<body class="bg-brand-dark text-gray-100 font-sans antialiased selection:bg-brand-gold selection:text-black min-h-screen flex flex-col">
 
-  <!-- Configuração das Chaves do Supabase -->
+  <!-- CHAVES DO SUPABASE JÁ CONFIGURADAS -->
   <script>
-    // ⚠️ SUBSTITUA PELAS SUAS CHAVES DO PAINEL DO SUPABASE (Project Settings > API)
-   const SUPABASE_URL = 'https://fqzdrivepraezltbbjucz.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxemRydmVwcmFlemx0YmJuczIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNTE5MDUsImV4cCI6MjEwODYyNzkwNX0.ZB_CNRJTq4GWHj9FSp_2gxlxrG5YpBb8LwlZVNGs7Io';
+    const SUPABASE_URL = 'https://fqzdrivepraezltbbjucz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxemRydmVwcmFlemx0YmJqdWN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNTE5MDUsImV4cCI6MjEwODYyNzkwNX0.ZB_CNRJTq4GWHj9FSp_2gxlxrG5YpBb8LwlZVNGs7Io';
     
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const BUCKET_URL = `${SUPABASE_URL}/storage/v1/object/public/fotos-espaco`;
   </script>
 
-  <!-- NAVEGAÇÃO -->
-  <nav class="fixed top-0 left-0 w-full bg-brand-dark/90 backdrop-blur-md z-50 border-b border-gray-800">
+  <!-- NAVEGAÇÃO SUPERIOR -->
+  <nav class="fixed top-0 left-0 w-full bg-brand-dark/95 backdrop-blur-md z-50 border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3">
-        <!-- Logo ER estilo medalhão dourado -->
-        <div class="w-10 h-10 rounded-full border-2 border-brand-gold flex items-center justify-center font-bold text-brand-gold italic">
-          ER
+      <a href="#" class="flex items-center gap-3 group">
+        <!-- Medalhão do Logo com a fonte cursiva exata do estilo da foto -->
+        <div class="w-11 h-11 rounded-full border-2 border-brand-gold flex items-center justify-center bg-black/40 shadow-inner group-hover:scale-105 transition">
+          <span class="font-logo text-brand-gold text-2xl font-normal leading-none pl-0.5 pt-1 select-none">ER</span>
         </div>
-        <span class="font-semibold text-lg tracking-wider text-gray-100 uppercase">Espaço Recanto</span>
+        <div class="flex flex-col">
+          <span class="font-bold text-base tracking-wider text-white uppercase leading-none">Espaço Recanto</span>
+          <span class="text-[10px] text-brand-gold tracking-widest uppercase mt-0.5">Camobi • Santa Maria</span>
+        </div>
       </a>
-      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+      <div class="flex items-center gap-6 text-sm font-medium text-gray-300">
+        <a href="#agendar" class="hover:text-brand-gold transition hidden sm:inline-block">Agendar</a>
         <a href="#sobre" class="hover:text-brand-gold transition">O Espaço</a>
-        <a href="#galeria" class="hover:text-brand-gold transition">Galeria</a>
-        <a href="#agendar" class="bg-brand-gold text-black px-5 py-2.5 rounded-full font-semibold hover:bg-brand-goldHover transition">Agendar Data</a>
+        <a href="#galeria" class="hover:text-brand-gold transition hidden md:inline-block">Fotos</a>
+        <a href="#agendar" class="bg-brand-gold text-black px-4 py-2 rounded-full font-bold text-xs hover:bg-brand-goldHover transition uppercase tracking-wider">
+          Reservar
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
-  <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 px-4 overflow-hidden">
-    <div class="max-w-5xl mx-auto text-center relative z-10">
-      <span class="inline-block px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold tracking-widest uppercase mb-4">
-        Camobi • Santa Maria-RS
-      </span>
-      <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
-        O cenário perfeito para transformar seus momentos em <span class="text-brand-gold">memórias inesquecíveis</span>.
-      </h1>
-      <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
-        Ambiente acolhedor, interativo e moderno. Estrutura completa com piscina, área gourmet, salão de jogos e total conforto.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#agendar" class="bg-brand-gold text-black font-bold px-8 py-4 rounded-xl shadow-lg shadow-brand-gold/20 hover:bg-brand-goldHover transition text-center">
-          <i class="fa-regular fa-calendar-check mr-2"></i> Ver Disponibilidade
-        </a>
-        <a href="#galeria" class="bg-brand-card text-gray-200 border border-gray-700 font-semibold px-8 py-4 rounded-xl hover:bg-gray-800 transition text-center">
-          <i class="fa-regular fa-image mr-2"></i> Conhecer Estrutura
-        </a>
+  <!-- 1. HERO COMPACTO: 1 FOTO + SLOGAN -->
+  <section class="pt-28 pb-8 px-4 max-w-7xl mx-auto w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-brand-card border border-gray-800 p-6 md:p-8 rounded-3xl shadow-2xl">
+      
+      <!-- Slogan e Apresentação Direta -->
+      <div class="lg:col-span-7 space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold">
+          <i class="fa-solid fa-location-dot"></i> Bairro Camobi, Santa Maria-RS
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Reserve o <span class="text-brand-gold">Espaço Recanto</span> para o seu evento.
+        </h1>
+        <p class="text-gray-300 text-sm md:text-base leading-relaxed">
+          Estrutura completa com piscina, área gourmet, churrasqueira, salão de jogos e ambiente climatizado para reuniões e celebrações inesquecíveis.
+        </p>
+        <div class="pt-2 flex flex-wrap gap-4 text-xs text-gray-400">
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-water-pool text-brand-gold"></i> Piscina com Pergolado</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire-burner text-brand-gold"></i> Área Gourmet</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-wifi text-brand-gold"></i> Wi-Fi de Alta Velocidade</span>
+        </div>
       </div>
+
+      <!-- 1 Foto Principal em Destaque -->
+      <div class="lg:col-span-5 relative rounded-2xl overflow-hidden border border-gray-700 shadow-lg aspect-video lg:aspect-square">
+        <img src="https://fqzdrivepraezltbbjucz.supabase.co/storage/v1/object/public/fotos-espaco/IMG_5827.jpg" 
+             alt="Fachada do Espaço Recanto" 
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+          <span class="text-xs text-gray-200 font-medium"><i class="fa-solid fa-camera mr-1"></i> Fachada Principal - Rua 133</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- GALERIA DE FOTOS (Carregadas do Supabase Storage) -->
-  <section id="galeria" class="py-20 bg-black/40 border-y border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3">Conheça o Espaço Recanto</h2>
-        <p class="text-gray-400">Clique em qualquer foto para ampliar</p>
-      </div>
-
-      <!-- Grid de Fotos -->
-      <div id="grid-fotos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Injetado dinamicamente via JavaScript -->
-      </div>
-    </div>
-  </section>
-
-  <!-- FORMULÁRIO DE AGENDAMENTO -->
-  <section id="agendar" class="py-20 px-4">
-    <div class="max-w-3xl mx-auto bg-brand-card p-6 md:p-10 rounded-2xl border border-gray-800 shadow-2xl">
+  <!-- 2. CALENDÁRIO & FORMULÁRIO DE AGENDAMENTO (CENTRAL DE AÇÃO) -->
+  <section id="agendar" class="py-6 px-4 max-w-4xl mx-auto w-full">
+    <div class="bg-brand-card p-6 md:p-8 rounded-3xl border border-brand-gold/40 shadow-2xl relative">
+      
       <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-white mb-2">Solicitar Agendamento</h2>
-        <p class="text-gray-400 text-sm">Selecione a data desejada e preencha seus dados para verificar a disponibilidade.</p>
+        <span class="text-brand-gold text-xs font-bold uppercase tracking-widest">Passo 1 de 2</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-white">Escolha a Data do seu Evento</h2>
+        <p class="text-gray-400 text-xs md:text-sm mt-1">Consulte a disponibilidade em tempo real antes de preencher os dados.</p>
       </div>
 
-      <form id="form-reserva" onsubmit="enviarReserva(event)" class="space-y-6">
-        <div>
-          <label class="block text-sm font-medium text-gray-300 mb-2">Seu Nome Completo</label>
-          <input type="text" id="nome" required placeholder="Ex: João Silva" 
-            class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold" />
+      <form id="form-agendamento" onsubmit="processarAgendamento(event)" class="space-y-6">
+        
+        <!-- Seleção de Data / Calendário Interativo -->
+        <div class="bg-brand-dark p-5 rounded-2xl border border-gray-700">
+          <label class="block text-sm font-semibold text-gray-200 mb-2">
+            <i class="fa-regular fa-calendar-days text-brand-gold mr-2"></i>Selecione o Dia Pretendido:
+          </label>
+          <input type="date" id="data_evento" required onchange="verificarDataDisponivel()"
+            class="w-full bg-brand-card border border-gray-600 rounded-xl px-4 py-3 text-white text-lg font-bold focus:outline-none focus:border-brand-gold transition cursor-pointer" />
+          <div id="status-data" class="mt-3 hidden text-sm font-medium p-3 rounded-xl"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-2">WhatsApp para Contato</label>
-            <input type="tel" id="whatsapp" required placeholder="(55) 99999-9999" 
-              class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold" />
+        <!-- Campos de Dados (Aparecem após a data ser válida) -->
+        <div id="campos-cliente" class="space-y-5 pt-2">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">Seu Nome Completo *</label>
+              <input type="text" id="nome_cliente" required placeholder="Ex: Maria Silva" 
+                class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">WhatsApp para Contato *</label>
+              <input type="tel" id="whatsapp" required placeholder="(55) 99999-9999" 
+                class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold" />
+            </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-300 mb-2">Data do Evento</label>
-            <input type="date" id="data_evento" required onchange="verificarDisponibilidadeData()"
-              class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold" />
-            <p id="msg-data" class="text-xs mt-1 hidden"></p>
+            <label class="block text-xs font-semibold text-gray-300 mb-1.5">Tipo de Evento *</label>
+            <select id="tipo_evento" required class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold">
+              <option value="">Selecione o tipo de festa ou reunião...</option>
+              <option value="Aniversário">Aniversário</option>
+              <option value="Casamento / Noivado">Casamento / Noivado</option>
+              <option value="Formatura">Formatura</option>
+              <option value="Confraternização">Confraternização Corporativa</option>
+              <option value="Encontro Familiar">Reunião Familiar / Churrasco</option>
+              <option value="Outro">Outro</option>
+            </select>
           </div>
+
+          <!-- Termos de Utilização do Local -->
+          <div class="bg-brand-dark/80 p-4 rounded-xl border border-gray-800 text-xs text-gray-300 space-y-2">
+            <h4 class="font-bold text-brand-gold flex items-center gap-1.5">
+              <i class="fa-solid fa-shield-halved"></i> Termos de Uso e Conservação do Espaço:
+            </h4>
+            <ul class="list-disc list-inside space-y-1 text-gray-400">
+              <li>Respeitar os horários combinados de entrega e devolução das chaves.</li>
+              <li>Zelar pela limpeza e conservação dos móveis, equipamentos e piscina.</li>
+              <li>Manter o nível de som adequado conforme regulamento local.</li>
+            </ul>
+            <label class="flex items-center gap-2 pt-2 text-white font-medium cursor-pointer">
+              <input type="checkbox" id="aceita_termos" required class="w-4 h-4 accent-brand-gold rounded" />
+              Li e concordo com os termos de uso do local.
+            </label>
+          </div>
+
+          <button type="submit" id="btn-submit" 
+            class="w-full bg-brand-gold text-black font-extrabold py-4 rounded-xl shadow-lg hover:bg-brand-goldHover transition duration-200 text-base uppercase tracking-wider">
+            Confirmar e Solicitar Agendamento
+          </button>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-300 mb-2">Tipo de Evento</label>
-          <select id="tipo_evento" required class="w-full bg-brand-dark border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold">
-            <option value="">Selecione...</option>
-            <option value="Aniversário">Aniversário</option>
-            <option value="Casamento / Noivado">Casamento / Noivado</option>
-            <option value="Formatura">Formatura</option>
-            <option value="Confraternização Corporativa">Confraternização Corporativa</option>
-            <option value="Reunião Familiar">Reunião Familiar</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-
-        <button type="submit" id="btn-submit" 
-          class="w-full bg-brand-gold text-black font-bold py-4 rounded-xl shadow-lg hover:bg-brand-goldHover transition duration-200">
-          Enviar Solicitação de Reserva
-        </button>
       </form>
 
       <!-- Mensagem de Sucesso -->
-      <div id="sucesso-reserva" class="hidden text-center py-8 space-y-4">
-        <div class="w-16 h-16 bg-green-500/10 text-green-400 rounded-full flex items-center justify-center mx-auto text-3xl border border-green-500/20">
-          <i class="fa-solid fa-check"></i>
+      <div id="sucesso-reserva" class="hidden text-center py-10 space-y-4">
+        <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto text-3xl border border-green-500/40">
+          <i class="fa-solid fa-circle-check"></i>
         </div>
-        <h3 class="text-2xl font-bold text-white">Solicitação Enviada!</h3>
+        <h3 class="text-2xl font-bold text-white">Solicitação Recebida com Sucesso!</h3>
         <p class="text-gray-300 text-sm max-w-md mx-auto">
-          Recebemos o seu pedido para o dia <span id="reserva-data-confirmada" class="text-brand-gold font-semibold"></span>. Em breve entraremos em contato via WhatsApp para finalizar a confirmação.
+          Sua solicitação para o dia <span id="reserva-data-confirmada" class="text-brand-gold font-bold"></span> foi cadastrada. Em breve entraremos em contato via WhatsApp para finalizar a confirmação.
         </p>
-        <button onclick="reiniciarFormulario()" class="text-xs text-gray-500 underline hover:text-gray-300">Fazer outra solicitação</button>
+        <button onclick="resetarFormulario()" class="text-xs text-brand-gold underline hover:text-white pt-2 inline-block">
+          Fazer nova consulta de data
+        </button>
       </div>
+
+    </div>
+  </section>
+
+  <!-- 3. SEÇÃO SOBRE NÓS -->
+  <section id="sobre" class="py-16 px-4 max-w-5xl mx-auto w-full">
+    <div class="bg-brand-card/60 p-8 md:p-12 rounded-3xl border border-gray-800">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        
+        <div class="md:col-span-8 space-y-4">
+          <span class="text-brand-gold text-xs font-bold uppercase tracking-widest">Sobre o Espaço Recanto</span>
+          <h2 class="text-2xl md:text-3xl font-bold text-white">Acolhimento, Conforto e Tradição em Camobi</h2>
+          <p class="text-gray-300 text-sm leading-relaxed">
+            Criado por <strong>Jocinara Martins Pozzer</strong>, o Espaço Recanto foi planejado nos mínimos detalhes para oferecer um ambiente aconchegante, interativo e moderno para reuniões familiares, aniversários e celebrações especiais.
+          </p>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Localizado no coração do bairro Camobi em Santa Maria-RS, reunimos arquitetura contemporânea, área de lazer com piscina e infraestrutura completa para transformar seu evento em um momento inesquecível.
+          </p>
+        </div>
+
+        <div class="md:col-span-4 bg-brand-dark p-6 rounded-2xl border border-gray-700 text-center space-y-2">
+          <div class="w-12 h-12 bg-brand-gold/10 text-brand-gold rounded-full flex items-center justify-center mx-auto text-xl">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <h3 class="text-white font-bold text-sm">Espaço Recanto</h3>
+          <p class="text-xs text-gray-400">Ambiente seguro, exclusivo e aconchegante para você e seus convidados.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. GALERIA DE FOTOS (Fica no final para explorar com calma) -->
+  <section id="galeria" class="py-12 px-4 max-w-7xl mx-auto w-full border-t border-gray-800/80">
+    <div class="text-center mb-8">
+      <span class="text-brand-gold text-xs font-bold uppercase tracking-widest">Conheça Cada Detalhe</span>
+      <h2 class="text-2xl font-bold text-white mt-1">Galeria do Espaço</h2>
+    </div>
+
+    <!-- Grid de fotos compacto -->
+    <div id="grid-fotos" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <!-- Injetado dinamicamente via JS -->
     </div>
   </section>
 
   <!-- RODAPÉ -->
-  <footer class="bg-black/60 border-t border-gray-800 py-10 text-center text-xs text-gray-500">
+  <footer class="bg-black/80 border-t border-gray-800 py-8 text-center text-xs text-gray-500 mt-auto">
     <p>© Espaço Recanto • Bairro Camobi, Santa Maria-RS</p>
   </footer>
 
-  <!-- MODAL PARA AMPLIAR FOTO -->
-  <div id="modal-foto" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4" onclick="fecharModal()">
-    <img id="img-modal" src="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl object-contain" />
+  <!-- MODAL DE FOTO AMPLIADA -->
+  <div id="modal-foto" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 cursor-pointer" onclick="fecharModal()">
+    <img id="img-modal" src="" class="max-w-full max-h-[90vh] rounded-xl shadow-2xl object-contain" />
   </div>
 
   <!-- LÓGICA JAVASCRIPT -->
   <script>
-    // Lista de arquivos enviada por você no Supabase Storage
-    const listaFotos = [
+    // Configurar data mínima (hoje) no input de data
+    const inputData = document.getElementById('data_evento');
+    inputData.min = new Date().toISOString().split('T')[0];
+
+    // Verificar se a data já está ocupada no Supabase
+    async function verificarDataDisponivel() {
+      const dataEscolhida = inputData.value;
+      const statusDiv = document.getElementById('status-data');
+      const btnSubmit = document.getElementById('btn-submit');
+
+      if (!dataEscolhida) return;
+
+      statusDiv.classList.remove('hidden', 'bg-red-500/10', 'text-red-400', 'bg-green-500/10', 'text-green-400', 'border-red-500/30', 'border-green-500/30');
+      statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Consultando agenda no Supabase...';
+      statusDiv.className = 'mt-3 text-xs p-3 rounded-xl bg-gray-800 text-gray-300 border border-gray-700 block';
+
+      const { data, error } = await _supabase
+        .from('agendamentos')
+        .select('id, status')
+        .eq('data_evento', dataEscolhida)
+        .in('status', ['Pendente', 'Confirmado']);
+
+      if (error) {
+        statusDiv.innerHTML = '❌ Erro ao consultar disponibilidade. Tente novamente.';
+        statusDiv.className = 'mt-3 text-xs p-3 rounded-xl bg-red-500/10 text-red-400 border border-red-500/30 block';
+        return;
+      }
+
+      if (data && data.length > 0) {
+        statusDiv.innerHTML = '❌ <strong>Data Indisponível!</strong> Já existe uma solicitação pendente ou confirmada para este dia. Escolha outra data.';
+        statusDiv.className = 'mt-3 text-xs p-3 rounded-xl bg-red-500/10 text-red-400 border border-red-500/30 block';
+        btnSubmit.disabled = true;
+        btnSubmit.classList.add('opacity-50', 'cursor-not-allowed');
+      } else {
+        statusDiv.innerHTML = '✅ <strong>Data Disponível!</strong> Preencha seus dados abaixo para solicitar o agendamento.';
+        statusDiv.className = 'mt-3 text-xs p-3 rounded-xl bg-green-500/10 text-green-400 border border-green-500/30 block';
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+    }
+
+    // Processar Envio do Formulário
+    async function processarAgendamento(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit');
+      btn.innerText = 'Processando...';
+      btn.disabled = true;
+
+      const nome = document.getElementById('nome_cliente').value;
+      const whatsapp = document.getElementById('whatsapp').value;
+      const data_evento = inputData.value;
+      const tipo_evento = document.getElementById('tipo_evento').value;
+
+      const { data, error } = await _supabase
+        .from('agendamentos')
+        .insert([{
+          nome_cliente: nome,
+          whatsapp: whatsapp,
+          data_evento: data_evento,
+          tipo_evento: tipo_evento,
+          status: 'Pendente'
+        }]);
+
+      if (error) {
+        alert('Ocorreu um erro ao gravar o agendamento: ' + error.message);
+        btn.innerText = 'Confirmar e Solicitar Agendamento';
+        btn.disabled = false;
+      } else {
+        document.getElementById('form-agendamento').classList.add('hidden');
+        document.getElementById('reserva-data-confirmada').textContent = data_evento.split('-').reverse().join('/');
+        document.getElementById('sucesso-reserva').classList.remove('hidden');
+      }
+    }
+
+    function resetarFormulario() {
+      document.getElementById('form-agendamento').reset();
+      document.getElementById('form-agendamento').classList.remove('hidden');
+      document.getElementById('sucesso-reserva').classList.add('hidden');
+      document.getElementById('status-data').classList.add('hidden');
+    }
+
+    // Carregar Galeria Secundária
+    const fotos = [
       'IMG_5808.jpg', 'IMG_5813.jpg', 'IMG_5814.jpg', 'IMG_5815.jpg',
       'IMG_5816.jpg', 'IMG_5817.jpg', 'IMG_5823.jpg', 'IMG_5824.jpg',
-      'IMG_5825.jpg', 'IMG_5826.jpg', 'IMG_5827.jpg', 'IMG_5828.jpg',
-      'IMG_5829.jpg', 'IMG_5830.jpg', 'IMG_5831.jpg', 'IMG_5832.jpg'
+      'IMG_5825.jpg', 'IMG_5826.jpg', 'IMG_5828.jpg', 'IMG_5829.jpg'
     ];
 
-    // Renderizar Galeria de Fotos
-    function carregarGaleria() {
+    function renderizarGaleria() {
       const container = document.getElementById('grid-fotos');
       container.innerHTML = '';
-
-      listaFotos.forEach(nomeArquivo => {
-        const urlCompleta = `${BUCKET_URL}/${nomeArquivo}`;
-        const card = document.createElement('div');
-        card.className = 'relative group overflow-hidden rounded-xl bg-brand-card border border-gray-800 cursor-pointer aspect-video';
-        card.onclick = () => abrirModal(urlCompleta);
-        card.innerHTML = `
-          <img src="${urlCompleta}" loading="lazy" alt="Espaço Recanto" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-brand-gold text-2xl">
-            <i class="fa-solid fa-magnifying-glass-plus"></i>
-          </div>
+      fotos.forEach(arq => {
+        const url = `${BUCKET_URL}/${arq}`;
+        const div = document.createElement('div');
+        div.className = 'relative group overflow-hidden rounded-xl bg-brand-card border border-gray-800 cursor-pointer aspect-video';
+        div.onclick = () => abrirModal(url);
+        div.innerHTML = `
+          <img src="${url}" loading="lazy" alt="Foto do Espaço" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
         `;
-        container.appendChild(card);
+        container.appendChild(div);
       });
     }
 
-    // Modal de Foto Ampliada
     function abrirModal(url) {
       document.getElementById('img-modal').src = url;
       document.getElementById('modal-foto').classList.remove('hidden');
@@ -212,72 +373,7 @@
       document.getElementById('modal-foto').classList.add('hidden');
     }
 
-    // Verificar se a data já está ocupada no Supabase
-    async function verificarDisponibilidadeData() {
-      const inputData = document.getElementById('data_evento').value;
-      const msg = document.getElementById('msg-data');
-      const btn = document.getElementById('btn-submit');
-
-      if (!inputData) return;
-
-      const { data, error } = await _supabase
-        .from('agendamentos')
-        .select('id, status')
-        .eq('data_evento', inputData)
-        .in('status', ['Pendente', 'Confirmado']);
-
-      if (data && data.length > 0) {
-        msg.textContent = '❌ Esta data já possui uma reserva pendente ou confirmada.';
-        msg.className = 'text-xs mt-1 text-red-400 block';
-        btn.disabled = true;
-        btn.classList.add('opacity-50', 'cursor-not-allowed');
-      } else {
-        msg.textContent = '✅ Data disponível para solicitação!';
-        msg.className = 'text-xs mt-1 text-green-400 block';
-        btn.disabled = false;
-        btn.classList.remove('opacity-50', 'cursor-not-allowed');
-      }
-    }
-
-    // Enviar Reserva para o Supabase
-    async function enviarReserva(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btn-submit');
-      btn.innerText = 'Enviando...';
-      btn.disabled = true;
-
-      const nome = document.getElementById('nome').value;
-      const whatsapp = document.getElementById('whatsapp').value;
-      const data_evento = document.getElementById('data_evento').value;
-      const tipo_evento = document.getElementById('tipo_evento').value;
-
-      const { data, error } = await _supabase
-        .from('agendamentos')
-        .insert([{ nome_cliente: nome, whatsapp, data_evento, tipo_evento }]);
-
-      if (error) {
-        alert('Ocorreu um erro ao enviar seu agendamento: ' + error.message);
-        btn.innerText = 'Enviar Solicitação de Reserva';
-        btn.disabled = false;
-      } else {
-        document.getElementById('form-reserva').classList.add('hidden');
-        document.getElementById('reserva-data-confirmada').textContent = data_evento.split('-').reverse().join('/');
-        document.getElementById('sucesso-reserva').classList.remove('hidden');
-      }
-    }
-
-    function reiniciarFormulario() {
-      document.getElementById('form-reserva').reset();
-      document.getElementById('form-reserva').classList.remove('hidden');
-      document.getElementById('sucesso-reserva').classList.add('hidden');
-      document.getElementById('msg-data').classList.add('hidden');
-    }
-
-    // Bloquear datas passadas no input
-    document.getElementById('data_evento').min = new Date().toISOString().split('T')[0];
-
-    // Inicializar Galeria
-    carregarGaleria();
+    renderizarGaleria();
   </script>
 </body>
 </html>
