@@ -82,41 +82,15 @@
   <section class="pt-28 pb-8 px-4 max-w-7xl mx-auto w-full">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-brand-card border border-gray-800 p-6 md:p-8 rounded-3xl shadow-2xl">
       <div class="lg:col-span-7 space-y-4">
-        <a href="https://maps.app.goo.gl/GwC2x6KvksNM6gci6" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização do Espaço Recanto no Google Maps" class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold hover:bg-brand-gold/20 transition">
-          <i class="fa-solid fa-location-dot"></i>
-          Camobi, Santa Maria-RS
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold">
+          <i class="fa-solid fa-location-dot"></i> Bairro Camobi, Santa Maria-RS
+        </div>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
           Reserve o <span class="text-brand-gold">Espaço Recanto</span> para o seu evento.
         </h1>
-        <div class="space-y-4">
-          <p class="text-gray-300 text-sm md:text-base leading-relaxed">
-            Um espaço completo e acolhedor para reunir quem você gosta e celebrar momentos especiais. Confira o que o Espaço Recanto oferece:
-          </p>
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-200">
-            <li class="flex items-start gap-3 rounded-xl border border-gray-700 bg-brand-dark/60 p-3">
-              <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold/10 text-brand-gold"><i class="fa-solid fa-tv"></i></span>
-              <span><strong class="block text-white">Sala equipada</strong><span class="text-gray-400">TV, som e calefator para mais conforto.</span></span>
-            </li>
-            <li class="flex items-start gap-3 rounded-xl border border-gray-700 bg-brand-dark/60 p-3">
-              <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold/10 text-brand-gold"><i class="fa-solid fa-utensils"></i></span>
-              <span><strong class="block text-white">Cozinha gourmet</strong><span class="text-gray-400">Churrasqueira e cozinha totalmente equipada.</span></span>
-            </li>
-            <li class="flex items-start gap-3 rounded-xl border border-gray-700 bg-brand-dark/60 p-3">
-              <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold/10 text-brand-gold"><i class="fa-solid fa-bowling-ball"></i></span>
-              <span><strong class="block text-white">Mesa de sinuca</strong><span class="text-gray-400">Diversão para compartilhar com seus convidados.</span></span>
-            </li>
-            <li class="flex items-start gap-3 rounded-xl border border-gray-700 bg-brand-dark/60 p-3">
-              <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold/10 text-brand-gold"><i class="fa-solid fa-universal-access"></i></span>
-              <span><strong class="block text-white">Estrutura acessível</strong><span class="text-gray-400">Três banheiros, incluindo um com chuveiro e fraldário.</span></span>
-            </li>
-            <li class="flex items-start gap-3 rounded-xl border border-gray-700 bg-brand-dark/60 p-3 sm:col-span-2">
-              <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold/10 text-brand-gold"><i class="fa-solid fa-person-swimming"></i></span>
-              <span><strong class="block text-white">Piscina e pergolado</strong><span class="text-gray-400">Um ambiente aconchegante com iluminação especial para aproveitar bons momentos.</span></span>
-            </li>
-          </ul>
-        </div>
+        <p class="text-gray-300 text-sm md:text-base leading-relaxed">
+          Estrutura completa com piscina, área gourmet, churrasqueira, salão de jogos e ambiente climatizado para reuniões e celebrações inesquecíveis.
+        </p>
       </div>
       
       <!-- CARROSSEL DE FOTOS DO HERO -->
@@ -210,11 +184,41 @@
     </div>
   </section>
 
-  <!-- 3. SOBRE -->
-  <section id="sobre" class="py-16 px-4 max-w-5xl mx-auto w-full">
-    <div class="bg-brand-card/60 p-8 md:p-12 rounded-3xl border border-gray-800">
-      <h2 class="text-2xl font-bold text-white mb-2">Acolhimento e Tradição em Camobi</h2>
-      <p class="text-gray-300 text-sm">Criado por <strong>Jocinara Martins Pozzer</strong>, o Espaço Recanto oferece um ambiente aconchegante para reuniões e celebrações.</p>
+  <!-- 3. SOBRE / NOSSO ESPAÇO -->
+  <section id="sobre" class="py-16 px-4 max-w-7xl mx-auto w-full">
+    <div class="bg-brand-card/60 p-6 md:p-10 lg:p-12 rounded-3xl border border-gray-800 shadow-2xl">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Foto e nome da Jocinara -->
+        <div class="md:col-span-4 flex flex-col items-center text-center">
+          <div class="w-full max-w-xs aspect-[4/5] rounded-2xl overflow-hidden border-2 border-brand-gold shadow-xl bg-brand-dark">
+            <img src="${BUCKET_URL}/IMG_5809.jpg" alt="Jocinara Martins Pozzer, fundadora do Espaço Recanto" loading="lazy" class="w-full h-full object-cover object-center" />
+          </div>
+          <h3 class="font-logo text-brand-gold text-4xl sm:text-5xl mt-5 leading-tight">Jocinara Martins Pozzer</h3>
+          <div class="flex items-center justify-center gap-3 mt-2 text-[10px] sm:text-xs uppercase tracking-[0.22em] text-gray-300">
+            <span class="block w-8 h-px bg-brand-gold"></span>
+            <span>Diretoria de Eventos</span>
+            <span class="block w-8 h-px bg-brand-gold"></span>
+          </div>
+        </div>
+
+        <!-- Texto à direita -->
+        <div class="md:col-span-8 md:border-l md:border-brand-gold/50 md:pl-8 lg:pl-12">
+          <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.3em]">Nosso espaço</span>
+          <div class="w-14 h-1 bg-brand-gold mt-4 mb-5 rounded-full"></div>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
+            Acolhimento e Tradição <span class="text-brand-gold">em Camobi</span>
+          </h2>
+          <p class="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
+            Criado por <strong class="text-white">Jocinara Martins Pozzer</strong>, o Espaço Recanto oferece um ambiente aconchegante para reuniões e celebrações. Nosso compromisso é proporcionar momentos especiais com conforto, uma estrutura completa e todo o carinho que você e seus convidados merecem.
+          </p>
+          <div class="flex items-center gap-4 mt-8 text-brand-gold" aria-hidden="true">
+            <span class="h-px w-16 bg-brand-gold"></span>
+            <i class="fa-regular fa-heart text-xl"></i>
+            <span class="h-px w-16 bg-brand-gold"></span>
+          </div>
+          <p class="font-logo text-brand-gold text-3xl md:text-4xl mt-3">Aqui, cada momento se torna especial.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -409,50 +413,154 @@
       statusDiv.classList.add('hidden'); btnSubmit.disabled = true; renderizarCalendario();
     }
 
-    function abrirDiretoria() { document.getElementById('modal-diretoria').classList.remove('hidden'); }
-    function fecharDiretoria() { document.getElementById('modal-diretoria').classList.add('hidden'); }
+    async function abrirDiretoria() {
+      document.getElementById('modal-diretoria').classList.remove('hidden');
+
+      // Reaproveita uma sessão válida; não exige login novamente ao atualizar a página.
+      try {
+        const { data, error } = await _supabase.auth.getSession();
+        if (error) throw error;
+
+        if (data.session && data.session.user) {
+          document.getElementById('login-diretoria').classList.add('hidden');
+          document.getElementById('painel-diretoria').classList.remove('hidden');
+          await carregarAgendamentos();
+        } else {
+          document.getElementById('login-diretoria').classList.remove('hidden');
+          document.getElementById('painel-diretoria').classList.add('hidden');
+        }
+      } catch (err) {
+        console.error('Erro ao verificar sessão da Diretoria:', err);
+      }
+    }
+
+    function fecharDiretoria() {
+      document.getElementById('modal-diretoria').classList.add('hidden');
+    }
 
     async function entrarDiretoria(e) {
       e.preventDefault();
+
       const errEl = document.getElementById('erro-login-diretoria');
+      const btn = document.getElementById('btn-login-diretoria');
+      const loginEl = document.getElementById('login-diretoria');
+      const painelEl = document.getElementById('painel-diretoria');
+
+      errEl.textContent = '';
       errEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+
       try {
         const email = document.getElementById('email-diretoria').value.trim();
         const password = document.getElementById('senha-diretoria').value;
-        const { error } = await _supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        document.getElementById('login-diretoria').classList.add('hidden');
-        document.getElementById('painel-diretoria').classList.remove('hidden');
-        carregarAgendamentos();
+
+        const { data: authData, error: authError } =
+          await _supabase.auth.signInWithPassword({ email, password });
+
+        if (authError) throw new Error('Não foi possível entrar. Confira o e-mail e a senha. Detalhe: ' + authError.message);
+        if (!authData || !authData.user) {
+          throw new Error('O Supabase não confirmou o usuário. Tente novamente.');
+        }
+
+        loginEl.classList.add('hidden');
+        painelEl.classList.remove('hidden');
+
+        // Aguarda a consulta para mostrar claramente se o login funcionou,
+        // mas as permissões da tabela estão impedindo a leitura.
+        await carregarAgendamentos();
       } catch (err) {
-        errEl.textContent = 'Erro ao entrar: ' + (err.message || 'Credenciais inválidas');
+        errEl.textContent = err.message || 'Não foi possível entrar. Tente novamente.';
         errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Entrar';
       }
     }
 
     async function carregarAgendamentos() {
       const lista = document.getElementById('lista-agendamentos');
-      lista.innerHTML = '<p class="text-gray-400">Carregando...</p>';
+      const mensagem = document.getElementById('mensagem-diretoria');
+      const resumo = document.getElementById('resumo-diretoria');
+
+      lista.innerHTML = '<p class="text-gray-400">Carregando solicitações...</p>';
+      mensagem.classList.add('hidden');
+      mensagem.textContent = '';
+
       try {
-        const { data, error } = await _supabase.from('agendamentos').select('*').order('data_evento');
+        const { data, error } = await _supabase
+          .from('agendamentos')
+          .select('*')
+          .order('data_evento', { ascending: true });
+
         if (error) throw error;
+
         lista.innerHTML = '';
-        if (!data.length) { lista.innerHTML = '<p class="text-gray-400">Nenhum agendamento.</p>'; return; }
-        data.forEach(item => {
+        const registros = Array.isArray(data) ? data : [];
+
+        if (registros.length === 0) {
+          resumo.textContent = 'Nenhuma solicitação cadastrada.';
+          lista.innerHTML = '<p class="text-gray-400">Nenhum agendamento encontrado.</p>';
+          return;
+        }
+
+        resumo.textContent = `${registros.length} solicitação(ões) de agendamento`;
+
+        registros.forEach(item => {
           const card = document.createElement('div');
           card.className = 'bg-brand-dark p-4 rounded-xl border border-gray-700';
-          card.innerHTML = `<h3 class="font-bold text-white">${item.nome_cliente}</h3><p class="text-sm text-gray-300">Data: ${dataLegivel(item.data_evento)}</p><p class="text-sm text-gray-300">Status: ${item.status}</p>`;
+
+          const nome = document.createElement('h3');
+          nome.className = 'font-bold text-white';
+          nome.textContent = item.nome_cliente || 'Nome não informado';
+
+          const dataEl = document.createElement('p');
+          dataEl.className = 'text-sm text-gray-300';
+          dataEl.textContent = `Data: ${dataLegivel(item.data_evento) || 'Não informada'}`;
+
+          const statusEl = document.createElement('p');
+          statusEl.className = 'text-sm text-gray-300';
+          statusEl.textContent = `Status: ${item.status || 'Pendente'}`;
+
+          const tipoEl = document.createElement('p');
+          tipoEl.className = 'text-sm text-gray-300';
+          tipoEl.textContent = `Evento: ${item.tipo_evento || 'Não informado'}`;
+
+          const whatsappEl = document.createElement('p');
+          whatsappEl.className = 'text-sm text-gray-300';
+          whatsappEl.textContent = `WhatsApp: ${item.whatsapp || 'Não informado'}`;
+
+          card.append(nome, dataEl, statusEl, tipoEl, whatsappEl);
           lista.appendChild(card);
         });
       } catch (err) {
-        lista.innerHTML = '<p class="text-red-400">Erro ao carregar solicitações do banco de dados.</p>';
+        console.error('Erro ao carregar agendamentos:', err);
+        lista.innerHTML = '';
+
+        mensagem.textContent =
+          'O login pode ter sido realizado, mas não foi possível ler a tabela "agendamentos". ' +
+          'Detalhe: ' + (err.message || 'erro desconhecido') +
+          '. Verifique as políticas RLS/permissões da tabela no Supabase.';
+        mensagem.className =
+          'mb-4 rounded-xl p-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30';
+
+        resumo.textContent = 'Não foi possível carregar as solicitações.';
       }
     }
 
     async function sairDiretoria() {
-      await _supabase.auth.signOut();
+      const { error } = await _supabase.auth.signOut();
+      if (error) {
+        console.error('Erro ao sair:', error);
+      }
+
       document.getElementById('painel-diretoria').classList.add('hidden');
       document.getElementById('login-diretoria').classList.remove('hidden');
+      document.getElementById('form-login-diretoria').reset();
+
+      const errEl = document.getElementById('erro-login-diretoria');
+      errEl.textContent = '';
+      errEl.classList.add('hidden');
     }
 
     const fotos = ['IMG_5808.jpg', 'IMG_5813.jpg', 'IMG_5814.jpg', 'IMG_5815.jpg', 'IMG_5816.jpg', 'IMG_5817.jpg', 'IMG_5823.jpg', 'IMG_5824.jpg', 'IMG_5825.jpg', 'IMG_5826.jpg', 'IMG_5828.jpg', 'IMG_5829.jpg'];
