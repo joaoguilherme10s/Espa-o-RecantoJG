@@ -210,11 +210,41 @@
     </div>
   </section>
 
-  <!-- 3. SOBRE -->
-  <section id="sobre" class="py-16 px-4 max-w-5xl mx-auto w-full">
-    <div class="bg-brand-card/60 p-8 md:p-12 rounded-3xl border border-gray-800">
-      <h2 class="text-2xl font-bold text-white mb-2">Acolhimento e Tradição em Camobi</h2>
-      <p class="text-gray-300 text-sm">Criado por <strong>Jocinara Martins Pozzer</strong>, o Espaço Recanto oferece um ambiente aconchegante para reuniões e celebrações.</p>
+   <!-- 3. SOBRE / NOSSO ESPAÇO -->
+  <section id="sobre" class="py-16 px-4 max-w-7xl mx-auto w-full">
+    <div class="bg-brand-card/60 p-6 md:p-10 lg:p-12 rounded-3xl border border-gray-800 shadow-2xl">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Foto e nome da Jocinara -->
+        <div class="md:col-span-4 flex flex-col items-center text-center">
+          <div class="w-full max-w-xs aspect-[4/5] rounded-2xl overflow-hidden border-2 border-brand-gold shadow-xl bg-brand-dark">
+            <img src="https://pkbyomhxdhxsaakvyyiz.supabase.co/storage/v1/object/public/fotos-espaco/IMG_5809.jpg" alt="Jocinara Martins Pozzer, fundadora do Espaço Recanto" loading="lazy" class="w-full h-full object-cover object-center" />
+          </div>
+          <h3 class="font-logo text-brand-gold text-4xl sm:text-5xl mt-5 leading-tight">Jocinara Martins Pozzer</h3>
+          <div class="flex items-center justify-center gap-3 mt-2 text-[10px] sm:text-xs uppercase tracking-[0.22em] text-gray-300">
+            <span class="block w-8 h-px bg-brand-gold"></span>
+            <span>Diretoria de Eventos</span>
+            <span class="block w-8 h-px bg-brand-gold"></span>
+          </div>
+        </div>
+
+        <!-- Texto à direita -->
+        <div class="md:col-span-8 md:border-l md:border-brand-gold/50 md:pl-8 lg:pl-12">
+          <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.3em]">Nosso espaço</span>
+          <div class="w-14 h-1 bg-brand-gold mt-4 mb-5 rounded-full"></div>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
+            Acolhimento e Tradição <span class="text-brand-gold">em Camobi</span>
+          </h2>
+          <p class="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
+            Criado por <strong class="text-white">Jocinara Martins Pozzer</strong>, o Espaço Recanto oferece um ambiente aconchegante para reuniões e celebrações. Nosso compromisso é proporcionar momentos especiais com conforto, uma estrutura completa e todo o carinho que você e seus convidados merecem.
+          </p>
+          <div class="flex items-center gap-4 mt-8 text-brand-gold" aria-hidden="true">
+            <span class="h-px w-16 bg-brand-gold"></span>
+            <i class="fa-regular fa-heart text-xl"></i>
+            <span class="h-px w-16 bg-brand-gold"></span>
+          </div>
+          <p class="font-logo text-brand-gold text-3xl md:text-4xl mt-3">Aqui, cada momento se torna especial.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -225,6 +255,67 @@
     </div>
     <div id="grid-fotos" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
   </section>
+
+ <!-- 5. DÚVIDAS FREQUENTES / SUPORTE -->
+  <section id="duvidas" class="px-4 py-12 md:py-16 max-w-5xl mx-auto w-full border-t border-gray-800/80">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="inline-flex items-center gap-2 text-brand-gold text-xs font-bold uppercase tracking-[0.25em]">
+          <i class="fa-regular fa-circle-question"></i> Estamos aqui para ajudar
+        </span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-3">Ficou com alguma dúvida?</h2>
+        <p class="text-sm text-gray-400 mt-2">Toque em uma pergunta para ver a resposta.</p>
+      </div>
+
+      <div class="space-y-3" id="faq-lista">
+        <div class="rounded-2xl border border-gray-800 bg-brand-card/70 overflow-hidden">
+          <button type="button" class="faq-pergunta w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left text-sm md:text-base font-semibold text-gray-200 hover:text-brand-gold transition" aria-expanded="false">
+            <span><i class="fa-regular fa-calendar-check text-brand-gold mr-3"></i>Como posso consultar se uma data está disponível?</span>
+            <i class="fa-solid fa-chevron-down faq-seta text-brand-gold transition-transform"></i>
+          </button>
+          <div class="faq-resposta hidden px-4 md:px-5 pb-5 pl-11 md:pl-12 text-sm leading-relaxed text-gray-400">
+            Vá até a seção “Escolha a Data do seu Evento” e selecione um dia no calendário. O site tentará consultar a disponibilidade e mostrará uma mensagem na tela.
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-gray-800 bg-brand-card/70 overflow-hidden">
+          <button type="button" class="faq-pergunta w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left text-sm md:text-base font-semibold text-gray-200 hover:text-brand-gold transition" aria-expanded="false">
+            <span><i class="fa-regular fa-clipboard text-brand-gold mr-3"></i>Como faço para solicitar uma reserva?</span>
+            <i class="fa-solid fa-chevron-down faq-seta text-brand-gold transition-transform"></i>
+          </button>
+          <div class="faq-resposta hidden px-4 md:px-5 pb-5 pl-11 md:pl-12 text-sm leading-relaxed text-gray-400">
+            Selecione uma data disponível, preencha seu nome, WhatsApp e tipo de evento e clique em “Confirmar e Solicitar Agendamento”. A solicitação será enviada pelo site.
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-gray-800 bg-brand-card/70 overflow-hidden">
+          <button type="button" class="faq-pergunta w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left text-sm md:text-base font-semibold text-gray-200 hover:text-brand-gold transition" aria-expanded="false">
+            <span><i class="fa-solid fa-house text-brand-gold mr-3"></i>O que o Espaço Recanto oferece?</span>
+            <i class="fa-solid fa-chevron-down faq-seta text-brand-gold transition-transform"></i>
+          </button>
+          <div class="faq-resposta hidden px-4 md:px-5 pb-5 pl-11 md:pl-12 text-sm leading-relaxed text-gray-400">
+            Confira as fotos da galeria para conhecer melhor o local e sua estrutura. Você também pode entrar em contato com a administração para confirmar detalhes específicos sobre os espaços e equipamentos disponíveis.
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-gray-800 bg-brand-card/70 overflow-hidden">
+          <button type="button" class="faq-pergunta w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left text-sm md:text-base font-semibold text-gray-200 hover:text-brand-gold transition" aria-expanded="false">
+            <span><i class="fa-solid fa-location-dot text-brand-gold mr-3"></i>Onde fica o Espaço Recanto?</span>
+            <i class="fa-solid fa-chevron-down faq-seta text-brand-gold transition-transform"></i>
+          </button>
+          <div class="faq-resposta hidden px-4 md:px-5 pb-5 pl-11 md:pl-12 text-sm leading-relaxed text-gray-400">
+            O Espaço Recanto fica no bairro Camobi, em Santa Maria–RS. <a href="https://maps.app.goo.gl/GwC2x6KvksNM6gci6" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-brand-gold underline underline-offset-4 hover:text-white">Abrir localização no Google Maps <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 text-center rounded-2xl border border-gray-800/80 bg-black/10 p-5">
+        <p class="text-sm text-gray-300">Não encontrou a resposta que procurava?</p>
+        <p class="text-xs text-gray-500 mt-1">Entre em contato com a administração do Espaço Recanto para confirmar valores, horários e outras condições.</p>
+      </div>
+    </div>
+  </section>
+
 
   <!-- MODAL DIRETORIA -->
   <div id="modal-diretoria" class="fixed inset-0 z-[70] hidden overflow-y-auto bg-black/90 p-4 md:p-8">
