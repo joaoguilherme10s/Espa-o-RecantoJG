@@ -5,37 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Espaço Recanto | Agendamentos em Camobi</title>
   
-
-  <style>
-    html { scroll-padding-top: 5.5rem; }
-    @media (max-width: 767px) {
-      nav .nav-inner { height: 4.75rem; gap: .5rem; }
-      nav .brand-link { gap: .55rem; min-width: 0; flex: 1; }
-      nav .brand-mark { width: 2.7rem; height: 2.7rem; border-width: 1.5px; }
-      nav .brand-mark span { font-size: 1.9rem; }
-      nav .brand-copy { min-width: 0; }
-      nav .brand-name { font-size: .88rem; line-height: 1.05; letter-spacing: .04em; white-space: nowrap; }
-      nav .brand-location { font-size: .56rem; line-height: 1.2; letter-spacing: .04em; }
-      nav .desktop-nav { display: none; }
-      nav .mobile-menu-button { display: inline-flex; }
-      #menu-mobile a { display: block; padding: .8rem 1rem; border-radius: .7rem; }
-      #menu-mobile a:active { background: rgba(212,175,55,.12); }
-      #hero, #agendar, #sobre, #galeria { scroll-margin-top: 5.5rem; }
-      #grade-calendario { gap: .25rem; }
-      #grade-calendario button { min-height: 2.65rem !important; padding: .25rem 0; border-radius: .7rem; }
-      #agendar > div { padding: 1rem; }
-      #agendar .rounded-2xl.border.border-gray-700.bg-brand-card { padding: .75rem; }
-      #mes-calendario { font-size: 1rem; line-height: 1.35; }
-      #mes-anterior, #proximo-mes { padding: .65rem .8rem; }
-      #foto-hero { object-fit: cover; }
-      #modal-foto { padding: .75rem; }
-      #img-modal { max-width: 100%; max-height: 78vh; }
-    }
-    @media (min-width: 768px) {
-      nav .mobile-menu-button, #menu-mobile { display: none !important; }
-    }
-  </style>
-
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Ícones -->
@@ -82,31 +51,30 @@
     const BUCKET_URL = `${SUPABASE_URL}/storage/v1/object/public/fotos-espaco`;
   </script>
 
-  <!-- NAVEGAÇÃO SUPERIOR RESPONSIVA -->
+  <!-- NAVEGAÇÃO SUPERIOR -->
   <nav class="fixed top-0 left-0 w-full bg-brand-dark/95 backdrop-blur-md z-50 border-b border-gray-800">
-    <div class="nav-inner max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="#" class="brand-link flex items-center gap-4 group min-w-0">
-        <div class="brand-mark w-14 h-14 rounded-full border-2 border-brand-gold flex items-center justify-center bg-black/40 shadow-inner shrink-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-4 group">
+        <!-- Emblema circular "ER" -->
+        <div class="w-14 h-14 rounded-full border-2 border-brand-gold flex items-center justify-center bg-black/40 shadow-inner group-hover:scale-105 transition shrink-0">
           <span class="font-logo text-brand-gold text-4xl font-normal leading-none pl-0.5 pt-1 select-none">ER</span>
         </div>
-        <div class="brand-copy flex flex-col">
-          <span class="brand-name font-extrabold text-xl sm:text-2xl tracking-wider text-white uppercase leading-none">Espaço Recanto</span>
-          <span class="brand-location text-xs sm:text-sm text-brand-gold tracking-widest uppercase mt-1 font-medium">Camobi • Santa Maria - RS</span>
+        <!-- Textos do letreiro -->
+        <div class="flex flex-col">
+          <span class="font-extrabold text-xl sm:text-2xl tracking-wider text-white uppercase leading-none">Espaço Recanto</span>
+          <span class="text-xs sm:text-sm text-brand-gold tracking-widest uppercase mt-1 font-medium">Camobi • Santa Maria -RS </span>
         </div>
       </a>
-      <div class="desktop-nav flex items-center gap-4 sm:gap-6 text-sm font-medium text-gray-300">
-        <a href="#agendar" class="hover:text-brand-gold transition flex items-center gap-1.5"><i class="fa-regular fa-calendar-days text-brand-gold"></i> Agendar</a>
-        <a href="#sobre" class="hover:text-brand-gold transition">O Espaço</a>
-        <a href="#galeria" class="hover:text-brand-gold transition">Fotos</a>
-        <button type="button" onclick="abrirDiretoria()" class="bg-brand-gold text-black px-4 py-2.5 rounded-full font-bold text-xs hover:bg-brand-goldHover transition uppercase tracking-wider shadow-md">Diretoria</button>
+      <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium text-gray-300">
+        <a href="#agendar" class="hover:text-brand-gold transition flex items-center gap-1.5">
+          <i class="fa-regular fa-calendar-days text-brand-gold"></i> Agendar seu Horário!
+        </a>
+        <a href="#sobre" class="hover:text-brand-gold transition hidden sm:inline-block">O Espaço</a>
+        <a href="#galeria" class="hover:text-brand-gold transition hidden md:inline-block">Fotos</a>
+        <button type="button" onclick="abrirDiretoria()" class="bg-brand-gold text-black px-4 py-2.5 rounded-full font-bold text-xs hover:bg-brand-goldHover transition uppercase tracking-wider shadow-md">
+          Área da Diretoria
+        </button>
       </div>
-      <button type="button" class="mobile-menu-button hidden items-center justify-center w-10 h-10 rounded-xl border border-gray-700 text-brand-gold text-xl" aria-label="Abrir menu" aria-expanded="false" onclick="alternarMenuMobile()"><i class="fa-solid fa-bars"></i></button>
-    </div>
-    <div id="menu-mobile" class="hidden md:hidden px-4 pb-4 pt-1 bg-brand-dark border-t border-gray-800">
-      <a href="#agendar" onclick="fecharMenuMobile()" class="text-gray-100"><i class="fa-regular fa-calendar-days text-brand-gold mr-2"></i>Agendar seu horário</a>
-      <a href="#sobre" onclick="fecharMenuMobile()" class="text-gray-100">O Espaço</a>
-      <a href="#galeria" onclick="fecharMenuMobile()" class="text-gray-100">Fotos</a>
-      <button type="button" onclick="fecharMenuMobile(); abrirDiretoria()" class="w-full text-left mt-1 px-4 py-3 rounded-xl bg-brand-gold text-black font-bold">Área da Diretoria</button>
     </div>
   </nav>
 
@@ -114,9 +82,11 @@
   <section class="pt-28 pb-8 px-4 max-w-7xl mx-auto w-full">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-brand-card border border-gray-800 p-6 md:p-8 rounded-3xl shadow-2xl">
       <div class="lg:col-span-7 space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold">
-          <i class="fa-solid fa-location-dot"></i> Bairro Camobi, Santa Maria-RS
-        </div>
+        <a href="https://maps.app.goo.gl/GwC2x6KvksNM6gci6" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização do Espaço Recanto no Google Maps" class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold hover:bg-brand-gold/20 transition">
+          <i class="fa-solid fa-location-dot"></i>
+          Camobi, Santa Maria-RS
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
           Reserve o <span class="text-brand-gold">Espaço Recanto</span> para o seu evento.
         </h1>
@@ -255,13 +225,9 @@
     </div>
   </div>
 
-  <!-- MODAL FOTO COM NAVEGAÇÃO -->
-  <div id="modal-foto" class="fixed inset-0 bg-black/95 z-[80] hidden items-center justify-center p-3 md:p-6" onclick="fecharModal()">
-    <button type="button" aria-label="Fechar foto" class="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-black/60 text-white text-3xl" onclick="event.stopPropagation(); fecharModal()">&times;</button>
-    <button type="button" aria-label="Foto anterior" class="absolute left-2 md:left-6 z-10 w-11 h-11 md:w-14 md:h-14 rounded-full bg-black/60 border border-gray-500 text-white text-2xl" onclick="event.stopPropagation(); mudarFotoModal(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-    <img id="img-modal" src="" alt="Foto ampliada do Espaço Recanto" class="max-w-full max-h-[82vh] rounded-xl shadow-2xl object-contain" onclick="event.stopPropagation()" />
-    <button type="button" aria-label="Próxima foto" class="absolute right-2 md:right-6 z-10 w-11 h-11 md:w-14 md:h-14 rounded-full bg-black/60 border border-gray-500 text-white text-2xl" onclick="event.stopPropagation(); mudarFotoModal(1)"><i class="fa-solid fa-chevron-right"></i></button>
-    <p id="contador-foto" class="absolute bottom-4 text-white text-sm bg-black/60 rounded-full px-4 py-2"></p>
+  <!-- MODAL FOTO -->
+  <div id="modal-foto" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4 cursor-pointer" onclick="fecharModal()">
+    <img id="img-modal" src="" class="max-w-full max-h-[90vh] rounded-xl shadow-2xl object-contain" />
   </div>
 
   <!-- SCRIPT -->
@@ -277,9 +243,14 @@
 
     /* CARROSSEL DE FOTOS DO HERO */
     const fotosHero = [
-      'IMG_5826.jpg',
-      'IMG_5828.jpg',
-      'IMG_5829.jpg'
+      'IMG_5827.jpg',
+      'IMG_5808.jpg',
+      'IMG_5813.jpg',
+      'IMG_5814.jpg',
+      'IMG_5815.jpg',
+      'IMG_5816.jpg',
+      'IMG_5823.jpg',
+      'IMG_5825.jpg'
     ];
     let indiceFotoHero = 0;
 
@@ -307,22 +278,6 @@
     function mudarFotoHero(direcao) {
       indiceFotoHero = (indiceFotoHero + direcao + fotosHero.length) % fotosHero.length;
       atualizarFotoHero();
-    }
-
-    function alternarMenuMobile() {
-      const menu = document.getElementById('menu-mobile');
-      const botao = document.querySelector('.mobile-menu-button');
-      const aberto = !menu.classList.contains('hidden');
-      menu.classList.toggle('hidden', aberto);
-      botao.setAttribute('aria-expanded', String(!aberto));
-      botao.innerHTML = aberto ? '<i class="fa-solid fa-bars"></i>' : '<i class="fa-solid fa-xmark"></i>';
-    }
-    function fecharMenuMobile() {
-      const menu = document.getElementById('menu-mobile');
-      const botao = document.querySelector('.mobile-menu-button');
-      menu.classList.add('hidden');
-      botao.setAttribute('aria-expanded', 'false');
-      botao.innerHTML = '<i class="fa-solid fa-bars"></i>';
     }
 
     function dataLocalISO(d) {
@@ -430,211 +385,76 @@
       statusDiv.classList.add('hidden'); btnSubmit.disabled = true; renderizarCalendario();
     }
 
-    async function abrirDiretoria() {
-      document.getElementById('modal-diretoria').classList.remove('hidden');
-
-      // Reaproveita uma sessão válida; não exige login novamente ao atualizar a página.
-      try {
-        const { data, error } = await _supabase.auth.getSession();
-        if (error) throw error;
-
-        if (data.session && data.session.user) {
-          document.getElementById('login-diretoria').classList.add('hidden');
-          document.getElementById('painel-diretoria').classList.remove('hidden');
-          await carregarAgendamentos();
-        } else {
-          document.getElementById('login-diretoria').classList.remove('hidden');
-          document.getElementById('painel-diretoria').classList.add('hidden');
-        }
-      } catch (err) {
-        console.error('Erro ao verificar sessão da Diretoria:', err);
-      }
-    }
-
-    function fecharDiretoria() {
-      document.getElementById('modal-diretoria').classList.add('hidden');
-    }
+    function abrirDiretoria() { document.getElementById('modal-diretoria').classList.remove('hidden'); }
+    function fecharDiretoria() { document.getElementById('modal-diretoria').classList.add('hidden'); }
 
     async function entrarDiretoria(e) {
       e.preventDefault();
-
       const errEl = document.getElementById('erro-login-diretoria');
-      const btn = document.getElementById('btn-login-diretoria');
-      const loginEl = document.getElementById('login-diretoria');
-      const painelEl = document.getElementById('painel-diretoria');
-
-      errEl.textContent = '';
       errEl.classList.add('hidden');
-      btn.disabled = true;
-      btn.textContent = 'Entrando...';
-
       try {
         const email = document.getElementById('email-diretoria').value.trim();
         const password = document.getElementById('senha-diretoria').value;
-
-        const { data: authData, error: authError } =
-          await _supabase.auth.signInWithPassword({ email, password });
-
-        if (authError) throw new Error('Não foi possível entrar. Confira o e-mail e a senha. Detalhe: ' + authError.message);
-        if (!authData || !authData.user) {
-          throw new Error('O Supabase não confirmou o usuário. Tente novamente.');
-        }
-
-        loginEl.classList.add('hidden');
-        painelEl.classList.remove('hidden');
-
-        // Aguarda a consulta para mostrar claramente se o login funcionou,
-        // mas as permissões da tabela estão impedindo a leitura.
-        await carregarAgendamentos();
+        const { error } = await _supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        document.getElementById('login-diretoria').classList.add('hidden');
+        document.getElementById('painel-diretoria').classList.remove('hidden');
+        carregarAgendamentos();
       } catch (err) {
-        errEl.textContent = err.message || 'Não foi possível entrar. Tente novamente.';
+        errEl.textContent = 'Erro ao entrar: ' + (err.message || 'Credenciais inválidas');
         errEl.classList.remove('hidden');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Entrar';
       }
     }
 
     async function carregarAgendamentos() {
       const lista = document.getElementById('lista-agendamentos');
-      const mensagem = document.getElementById('mensagem-diretoria');
-      const resumo = document.getElementById('resumo-diretoria');
-
-      lista.innerHTML = '<p class="text-gray-400">Carregando solicitações...</p>';
-      mensagem.classList.add('hidden');
-      mensagem.textContent = '';
-
+      lista.innerHTML = '<p class="text-gray-400">Carregando...</p>';
       try {
-        const { data, error } = await _supabase
-          .from('agendamentos')
-          .select('*')
-          .order('data_evento', { ascending: true });
-
+        const { data, error } = await _supabase.from('agendamentos').select('*').order('data_evento');
         if (error) throw error;
-
         lista.innerHTML = '';
-        const registros = Array.isArray(data) ? data : [];
-
-        if (registros.length === 0) {
-          resumo.textContent = 'Nenhuma solicitação cadastrada.';
-          lista.innerHTML = '<p class="text-gray-400">Nenhum agendamento encontrado.</p>';
-          return;
-        }
-
-        resumo.textContent = `${registros.length} solicitação(ões) de agendamento`;
-
-        registros.forEach(item => {
+        if (!data.length) { lista.innerHTML = '<p class="text-gray-400">Nenhum agendamento.</p>'; return; }
+        data.forEach(item => {
           const card = document.createElement('div');
           card.className = 'bg-brand-dark p-4 rounded-xl border border-gray-700';
-
-          const nome = document.createElement('h3');
-          nome.className = 'font-bold text-white';
-          nome.textContent = item.nome_cliente || 'Nome não informado';
-
-          const dataEl = document.createElement('p');
-          dataEl.className = 'text-sm text-gray-300';
-          dataEl.textContent = `Data: ${dataLegivel(item.data_evento) || 'Não informada'}`;
-
-          const statusEl = document.createElement('p');
-          statusEl.className = 'text-sm text-gray-300';
-          statusEl.textContent = `Status: ${item.status || 'Pendente'}`;
-
-          const tipoEl = document.createElement('p');
-          tipoEl.className = 'text-sm text-gray-300';
-          tipoEl.textContent = `Evento: ${item.tipo_evento || 'Não informado'}`;
-
-          const whatsappEl = document.createElement('p');
-          whatsappEl.className = 'text-sm text-gray-300';
-          whatsappEl.textContent = `WhatsApp: ${item.whatsapp || 'Não informado'}`;
-
-          card.append(nome, dataEl, statusEl, tipoEl, whatsappEl);
+          card.innerHTML = `<h3 class="font-bold text-white">${item.nome_cliente}</h3><p class="text-sm text-gray-300">Data: ${dataLegivel(item.data_evento)}</p><p class="text-sm text-gray-300">Status: ${item.status}</p>`;
           lista.appendChild(card);
         });
       } catch (err) {
-        console.error('Erro ao carregar agendamentos:', err);
-        lista.innerHTML = '';
-
-        mensagem.textContent =
-          'O login pode ter sido realizado, mas não foi possível ler a tabela "agendamentos". ' +
-          'Detalhe: ' + (err.message || 'erro desconhecido') +
-          '. Verifique as políticas RLS/permissões da tabela no Supabase.';
-        mensagem.className =
-          'mb-4 rounded-xl p-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30';
-
-        resumo.textContent = 'Não foi possível carregar as solicitações.';
+        lista.innerHTML = '<p class="text-red-400">Erro ao carregar solicitações do banco de dados.</p>';
       }
     }
 
     async function sairDiretoria() {
-      const { error } = await _supabase.auth.signOut();
-      if (error) {
-        console.error('Erro ao sair:', error);
-      }
-
+      await _supabase.auth.signOut();
       document.getElementById('painel-diretoria').classList.add('hidden');
       document.getElementById('login-diretoria').classList.remove('hidden');
-      document.getElementById('form-login-diretoria').reset();
-
-      const errEl = document.getElementById('erro-login-diretoria');
-      errEl.textContent = '';
-      errEl.classList.add('hidden');
     }
 
-    const fotos = ['IMG_5826.jpg', 'IMG_5828.jpg', 'IMG_5829.jpg'];
-    let indiceFotoModal = 0;
-    let toqueInicialX = null;
-
-    function abrirFoto(indice) {
-      indiceFotoModal = (indice + fotos.length) % fotos.length;
-      atualizarFotoModal();
-      const modalFoto = document.getElementById('modal-foto');
-      modalFoto.classList.remove('hidden');
-      modalFoto.classList.add('flex');
-    }
-    function atualizarFotoModal() {
-      const url = `${BUCKET_URL}/${fotos[indiceFotoModal]}`;
-      document.getElementById('img-modal').src = url;
-      document.getElementById('contador-foto').textContent = `${indiceFotoModal + 1} / ${fotos.length}`;
-    }
-    function mudarFotoModal(direcao) {
-      indiceFotoModal = (indiceFotoModal + direcao + fotos.length) % fotos.length;
-      atualizarFotoModal();
-    }
+    const fotos = ['IMG_5808.jpg', 'IMG_5813.jpg', 'IMG_5814.jpg', 'IMG_5815.jpg', 'IMG_5816.jpg', 'IMG_5817.jpg', 'IMG_5823.jpg', 'IMG_5824.jpg', 'IMG_5825.jpg', 'IMG_5826.jpg', 'IMG_5828.jpg', 'IMG_5829.jpg'];
     function renderizarGaleria() {
       const container = document.getElementById('grid-fotos');
       container.innerHTML = '';
-      fotos.forEach((arq, indice) => {
+      fotos.forEach(arq => {
         const url = `${BUCKET_URL}/${arq}`;
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.setAttribute('aria-label', `Ampliar foto ${indice + 1}`);
-        button.className = 'relative group overflow-hidden rounded-xl bg-brand-card border border-gray-800 cursor-pointer aspect-video text-left';
-        button.onclick = () => abrirFoto(indice);
-        button.innerHTML = `<img src="${url}" alt="Espaço Recanto" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" /><span class="absolute bottom-2 right-2 rounded-full bg-black/65 text-white px-3 py-1 text-xs"><i class="fa-solid fa-expand mr-1"></i> Ampliar</span>`;
-        container.appendChild(button);
+        const div = document.createElement('div');
+        div.className = 'relative group overflow-hidden rounded-xl bg-brand-card border border-gray-800 cursor-pointer aspect-video';
+        div.onclick = () => { 
+          document.getElementById('img-modal').src = url; 
+          const modalFoto = document.getElementById('modal-foto');
+          modalFoto.classList.remove('hidden'); 
+          modalFoto.classList.add('flex'); 
+        };
+        div.innerHTML = `<img src="${url}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition" />`;
+        container.appendChild(div);
       });
     }
-
-    function fecharModal() {
+    
+    function fecharModal() { 
       const modalFoto = document.getElementById('modal-foto');
-      modalFoto.classList.add('hidden');
+      modalFoto.classList.add('hidden'); 
       modalFoto.classList.remove('flex');
     }
-
-    const modalImagem = document.getElementById('img-modal');
-    modalImagem.addEventListener('touchstart', e => { toqueInicialX = e.changedTouches[0].screenX; }, { passive: true });
-    modalImagem.addEventListener('touchend', e => {
-      if (toqueInicialX === null) return;
-      const deltaX = e.changedTouches[0].screenX - toqueInicialX;
-      if (Math.abs(deltaX) > 45) mudarFotoModal(deltaX < 0 ? 1 : -1);
-      toqueInicialX = null;
-    }, { passive: true });
-    document.addEventListener('keydown', e => {
-      if (document.getElementById('modal-foto').classList.contains('hidden')) return;
-      if (e.key === 'ArrowRight') mudarFotoModal(1);
-      if (e.key === 'ArrowLeft') mudarFotoModal(-1);
-      if (e.key === 'Escape') fecharModal();
-    });
 
     document.addEventListener('DOMContentLoaded', () => {
       btnSubmit.disabled = true;
