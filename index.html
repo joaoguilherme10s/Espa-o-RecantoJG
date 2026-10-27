@@ -210,7 +210,7 @@
     </div>
   </section>
 
-   <!-- 3. SOBRE / NOSSO ESPAÇO -->
+  <!-- 3. SOBRE / NOSSO ESPAÇO -->
   <section id="sobre" class="py-16 px-4 max-w-7xl mx-auto w-full">
     <div class="bg-brand-card/60 p-6 md:p-10 lg:p-12 rounded-3xl border border-gray-800 shadow-2xl">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -256,7 +256,7 @@
     <div id="grid-fotos" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
   </section>
 
- <!-- 5. DÚVIDAS FREQUENTES / SUPORTE -->
+  <!-- 5. DÚVIDAS FREQUENTES / SUPORTE -->
   <section id="duvidas" class="px-4 py-12 md:py-16 max-w-5xl mx-auto w-full border-t border-gray-800/80">
     <div class="max-w-3xl mx-auto">
       <div class="text-center mb-8">
@@ -500,50 +500,154 @@
       statusDiv.classList.add('hidden'); btnSubmit.disabled = true; renderizarCalendario();
     }
 
-    function abrirDiretoria() { document.getElementById('modal-diretoria').classList.remove('hidden'); }
-    function fecharDiretoria() { document.getElementById('modal-diretoria').classList.add('hidden'); }
+    async function abrirDiretoria() {
+      document.getElementById('modal-diretoria').classList.remove('hidden');
+
+      // Reaproveita uma sessão válida; não exige login novamente ao atualizar a página.
+      try {
+        const { data, error } = await _supabase.auth.getSession();
+        if (error) throw error;
+
+        if (data.session && data.session.user) {
+          document.getElementById('login-diretoria').classList.add('hidden');
+          document.getElementById('painel-diretoria').classList.remove('hidden');
+          await carregarAgendamentos();
+        } else {
+          document.getElementById('login-diretoria').classList.remove('hidden');
+          document.getElementById('painel-diretoria').classList.add('hidden');
+        }
+      } catch (err) {
+        console.error('Erro ao verificar sessão da Diretoria:', err);
+      }
+    }
+
+    function fecharDiretoria() {
+      document.getElementById('modal-diretoria').classList.add('hidden');
+    }
 
     async function entrarDiretoria(e) {
       e.preventDefault();
+
       const errEl = document.getElementById('erro-login-diretoria');
+      const btn = document.getElementById('btn-login-diretoria');
+      const loginEl = document.getElementById('login-diretoria');
+      const painelEl = document.getElementById('painel-diretoria');
+
+      errEl.textContent = '';
       errEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+
       try {
         const email = document.getElementById('email-diretoria').value.trim();
         const password = document.getElementById('senha-diretoria').value;
-        const { error } = await _supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        document.getElementById('login-diretoria').classList.add('hidden');
-        document.getElementById('painel-diretoria').classList.remove('hidden');
-        carregarAgendamentos();
+
+        const { data: authData, error: authError } =
+          await _supabase.auth.signInWithPassword({ email, password });
+
+        if (authError) throw new Error('Não foi possível entrar. Confira o e-mail e a senha. Detalhe: ' + authError.message);
+        if (!authData || !authData.user) {
+          throw new Error('O Supabase não confirmou o usuário. Tente novamente.');
+        }
+
+        loginEl.classList.add('hidden');
+        painelEl.classList.remove('hidden');
+
+        // Aguarda a consulta para mostrar claramente se o login funcionou,
+        // mas as permissões da tabela estão impedindo a leitura.
+        await carregarAgendamentos();
       } catch (err) {
-        errEl.textContent = 'Erro ao entrar: ' + (err.message || 'Credenciais inválidas');
+        errEl.textContent = err.message || 'Não foi possível entrar. Tente novamente.';
         errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Entrar';
       }
     }
 
     async function carregarAgendamentos() {
       const lista = document.getElementById('lista-agendamentos');
-      lista.innerHTML = '<p class="text-gray-400">Carregando...</p>';
+      const mensagem = document.getElementById('mensagem-diretoria');
+      const resumo = document.getElementById('resumo-diretoria');
+
+      lista.innerHTML = '<p class="text-gray-400">Carregando solicitações...</p>';
+      mensagem.classList.add('hidden');
+      mensagem.textContent = '';
+
       try {
-        const { data, error } = await _supabase.from('agendamentos').select('*').order('data_evento');
+        const { data, error } = await _supabase
+          .from('agendamentos')
+          .select('*')
+          .order('data_evento', { ascending: true });
+
         if (error) throw error;
+
         lista.innerHTML = '';
-        if (!data.length) { lista.innerHTML = '<p class="text-gray-400">Nenhum agendamento.</p>'; return; }
-        data.forEach(item => {
+        const registros = Array.isArray(data) ? data : [];
+
+        if (registros.length === 0) {
+          resumo.textContent = 'Nenhuma solicitação cadastrada.';
+          lista.innerHTML = '<p class="text-gray-400">Nenhum agendamento encontrado.</p>';
+          return;
+        }
+
+        resumo.textContent = `${registros.length} solicitação(ões) de agendamento`;
+
+        registros.forEach(item => {
           const card = document.createElement('div');
           card.className = 'bg-brand-dark p-4 rounded-xl border border-gray-700';
-          card.innerHTML = `<h3 class="font-bold text-white">${item.nome_cliente}</h3><p class="text-sm text-gray-300">Data: ${dataLegivel(item.data_evento)}</p><p class="text-sm text-gray-300">Status: ${item.status}</p>`;
+
+          const nome = document.createElement('h3');
+          nome.className = 'font-bold text-white';
+          nome.textContent = item.nome_cliente || 'Nome não informado';
+
+          const dataEl = document.createElement('p');
+          dataEl.className = 'text-sm text-gray-300';
+          dataEl.textContent = `Data: ${dataLegivel(item.data_evento) || 'Não informada'}`;
+
+          const statusEl = document.createElement('p');
+          statusEl.className = 'text-sm text-gray-300';
+          statusEl.textContent = `Status: ${item.status || 'Pendente'}`;
+
+          const tipoEl = document.createElement('p');
+          tipoEl.className = 'text-sm text-gray-300';
+          tipoEl.textContent = `Evento: ${item.tipo_evento || 'Não informado'}`;
+
+          const whatsappEl = document.createElement('p');
+          whatsappEl.className = 'text-sm text-gray-300';
+          whatsappEl.textContent = `WhatsApp: ${item.whatsapp || 'Não informado'}`;
+
+          card.append(nome, dataEl, statusEl, tipoEl, whatsappEl);
           lista.appendChild(card);
         });
       } catch (err) {
-        lista.innerHTML = '<p class="text-red-400">Erro ao carregar solicitações do banco de dados.</p>';
+        console.error('Erro ao carregar agendamentos:', err);
+        lista.innerHTML = '';
+
+        mensagem.textContent =
+          'O login pode ter sido realizado, mas não foi possível ler a tabela "agendamentos". ' +
+          'Detalhe: ' + (err.message || 'erro desconhecido') +
+          '. Verifique as políticas RLS/permissões da tabela no Supabase.';
+        mensagem.className =
+          'mb-4 rounded-xl p-3 text-sm text-red-300 bg-red-500/10 border border-red-500/30';
+
+        resumo.textContent = 'Não foi possível carregar as solicitações.';
       }
     }
 
     async function sairDiretoria() {
-      await _supabase.auth.signOut();
+      const { error } = await _supabase.auth.signOut();
+      if (error) {
+        console.error('Erro ao sair:', error);
+      }
+
       document.getElementById('painel-diretoria').classList.add('hidden');
       document.getElementById('login-diretoria').classList.remove('hidden');
+      document.getElementById('form-login-diretoria').reset();
+
+      const errEl = document.getElementById('erro-login-diretoria');
+      errEl.textContent = '';
+      errEl.classList.add('hidden');
     }
 
     const fotos = ['IMG_5808.jpg', 'IMG_5813.jpg', 'IMG_5814.jpg', 'IMG_5815.jpg', 'IMG_5816.jpg', 'IMG_5817.jpg', 'IMG_5823.jpg', 'IMG_5824.jpg', 'IMG_5825.jpg', 'IMG_5826.jpg', 'IMG_5828.jpg', 'IMG_5829.jpg'];
@@ -570,6 +674,19 @@
       modalFoto.classList.add('hidden'); 
       modalFoto.classList.remove('flex');
     }
+
+    // Perguntas frequentes: abre a resposta ao clicar no balão da pergunta.
+    document.querySelectorAll('.faq-pergunta').forEach(botao => {
+      botao.addEventListener('click', () => {
+        const resposta = botao.nextElementSibling;
+        const estavaAberta = botao.getAttribute('aria-expanded') === 'true';
+        botao.setAttribute('aria-expanded', String(!estavaAberta));
+        resposta.classList.toggle('hidden', estavaAberta);
+        const seta = botao.querySelector('.faq-seta');
+        if (seta) seta.classList.toggle('rotate-180', !estavaAberta);
+      });
+    });
+
 
     document.addEventListener('DOMContentLoaded', () => {
       btnSubmit.disabled = true;
