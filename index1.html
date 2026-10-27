@@ -42,10 +42,10 @@
 </head>
 <body class="bg-brand-dark text-gray-100 font-sans antialiased selection:bg-brand-gold selection:text-black min-h-screen flex flex-col">
 
-  <!-- Configuração pública do serviço de dados -->
+  <!-- Configuração pública do serviço de dados com a NOVA CHAVE -->
   <script>
     const SUPABASE_URL = 'https://fqzdrivepraezltbbjucz.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_20_YfoDHwMdCZaniUaCnrQ_bW5st7-a';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxemRydmVwcmFlemx0YmJqdWN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNTE5MDUsImV4cCI6MjEwODYyNzkwNX0.ZB_CNRJTq4GWHj9FSp_2gxlxrG5YpBb8LwlZVNGs7Io';
     
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const BUCKET_URL = `${SUPABASE_URL}/storage/v1/object/public/fotos-espaco`;
@@ -59,7 +59,6 @@
           <span class="font-logo text-brand-gold text-3xl font-normal leading-none pl-0.5 pt-1 select-none">ER</span>
         </div>
         <div class="flex flex-col">
-          <!-- Nome destacado -->
           <span class="font-extrabold text-lg sm:text-xl tracking-wider text-white uppercase leading-none">Espaço Recanto</span>
           <span class="text-xs text-brand-gold tracking-widest uppercase mt-1">Camobi • Santa Maria</span>
         </div>
