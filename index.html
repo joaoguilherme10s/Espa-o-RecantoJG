@@ -5,6 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Espaço Recanto | Agendamentos em Camobi</title>
   
+
+  <style>
+    html { scroll-padding-top: 5.5rem; }
+    @media (max-width: 767px) {
+      nav .nav-inner { height: 4.75rem; gap: .5rem; }
+      nav .brand-link { gap: .55rem; min-width: 0; flex: 1; }
+      nav .brand-mark { width: 2.7rem; height: 2.7rem; border-width: 1.5px; }
+      nav .brand-mark span { font-size: 1.9rem; }
+      nav .brand-copy { min-width: 0; }
+      nav .brand-name { font-size: .88rem; line-height: 1.05; letter-spacing: .04em; white-space: nowrap; }
+      nav .brand-location { font-size: .56rem; line-height: 1.2; letter-spacing: .04em; }
+      nav .desktop-nav { display: none; }
+      nav .mobile-menu-button { display: inline-flex; }
+      #menu-mobile a { display: block; padding: .8rem 1rem; border-radius: .7rem; }
+      #menu-mobile a:active { background: rgba(212,175,55,.12); }
+      #hero, #agendar, #sobre, #galeria { scroll-margin-top: 5.5rem; }
+      #grade-calendario { gap: .25rem; }
+      #grade-calendario button { min-height: 2.65rem !important; padding: .25rem 0; border-radius: .7rem; }
+      #agendar > div { padding: 1rem; }
+      #agendar .rounded-2xl.border.border-gray-700.bg-brand-card { padding: .75rem; }
+      #mes-calendario { font-size: 1rem; line-height: 1.35; }
+      #mes-anterior, #proximo-mes { padding: .65rem .8rem; }
+      #foto-hero { object-fit: cover; }
+      #modal-foto { padding: .75rem; }
+      #img-modal { max-width: 100%; max-height: 78vh; }
+    }
+    @media (min-width: 768px) {
+      nav .mobile-menu-button, #menu-mobile { display: none !important; }
+    }
+  </style>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Ícones -->
@@ -51,30 +82,31 @@
     const BUCKET_URL = `${SUPABASE_URL}/storage/v1/object/public/fotos-espaco`;
   </script>
 
-  <!-- NAVEGAÇÃO SUPERIOR -->
+  <!-- NAVEGAÇÃO SUPERIOR RESPONSIVA -->
   <nav class="fixed top-0 left-0 w-full bg-brand-dark/95 backdrop-blur-md z-50 border-b border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-4 group">
-        <!-- Emblema circular "ER" -->
-        <div class="w-14 h-14 rounded-full border-2 border-brand-gold flex items-center justify-center bg-black/40 shadow-inner group-hover:scale-105 transition shrink-0">
+    <div class="nav-inner max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="brand-link flex items-center gap-4 group min-w-0">
+        <div class="brand-mark w-14 h-14 rounded-full border-2 border-brand-gold flex items-center justify-center bg-black/40 shadow-inner shrink-0">
           <span class="font-logo text-brand-gold text-4xl font-normal leading-none pl-0.5 pt-1 select-none">ER</span>
         </div>
-        <!-- Textos do letreiro -->
-        <div class="flex flex-col">
-          <span class="font-extrabold text-xl sm:text-2xl tracking-wider text-white uppercase leading-none">Espaço Recanto</span>
-          <span class="text-xs sm:text-sm text-brand-gold tracking-widest uppercase mt-1 font-medium">Camobi • Santa Maria -RS </span>
+        <div class="brand-copy flex flex-col">
+          <span class="brand-name font-extrabold text-xl sm:text-2xl tracking-wider text-white uppercase leading-none">Espaço Recanto</span>
+          <span class="brand-location text-xs sm:text-sm text-brand-gold tracking-widest uppercase mt-1 font-medium">Camobi • Santa Maria - RS</span>
         </div>
       </a>
-      <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium text-gray-300">
-        <a href="#agendar" class="hover:text-brand-gold transition flex items-center gap-1.5">
-          <i class="fa-regular fa-calendar-days text-brand-gold"></i> Agendar seu Horário!
-        </a>
-        <a href="#sobre" class="hover:text-brand-gold transition hidden sm:inline-block">O Espaço</a>
-        <a href="#galeria" class="hover:text-brand-gold transition hidden md:inline-block">Fotos</a>
-        <button type="button" onclick="abrirDiretoria()" class="bg-brand-gold text-black px-4 py-2.5 rounded-full font-bold text-xs hover:bg-brand-goldHover transition uppercase tracking-wider shadow-md">
-          Área da Diretoria
-        </button>
+      <div class="desktop-nav flex items-center gap-4 sm:gap-6 text-sm font-medium text-gray-300">
+        <a href="#agendar" class="hover:text-brand-gold transition flex items-center gap-1.5"><i class="fa-regular fa-calendar-days text-brand-gold"></i> Agendar</a>
+        <a href="#sobre" class="hover:text-brand-gold transition">O Espaço</a>
+        <a href="#galeria" class="hover:text-brand-gold transition">Fotos</a>
+        <button type="button" onclick="abrirDiretoria()" class="bg-brand-gold text-black px-4 py-2.5 rounded-full font-bold text-xs hover:bg-brand-goldHover transition uppercase tracking-wider shadow-md">Diretoria</button>
       </div>
+      <button type="button" class="mobile-menu-button hidden items-center justify-center w-10 h-10 rounded-xl border border-gray-700 text-brand-gold text-xl" aria-label="Abrir menu" aria-expanded="false" onclick="alternarMenuMobile()"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div id="menu-mobile" class="hidden md:hidden px-4 pb-4 pt-1 bg-brand-dark border-t border-gray-800">
+      <a href="#agendar" onclick="fecharMenuMobile()" class="text-gray-100"><i class="fa-regular fa-calendar-days text-brand-gold mr-2"></i>Agendar seu horário</a>
+      <a href="#sobre" onclick="fecharMenuMobile()" class="text-gray-100">O Espaço</a>
+      <a href="#galeria" onclick="fecharMenuMobile()" class="text-gray-100">Fotos</a>
+      <button type="button" onclick="fecharMenuMobile(); abrirDiretoria()" class="w-full text-left mt-1 px-4 py-3 rounded-xl bg-brand-gold text-black font-bold">Área da Diretoria</button>
     </div>
   </nav>
 
@@ -223,9 +255,13 @@
     </div>
   </div>
 
-  <!-- MODAL FOTO -->
-  <div id="modal-foto" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4 cursor-pointer" onclick="fecharModal()">
-    <img id="img-modal" src="" class="max-w-full max-h-[90vh] rounded-xl shadow-2xl object-contain" />
+  <!-- MODAL FOTO COM NAVEGAÇÃO -->
+  <div id="modal-foto" class="fixed inset-0 bg-black/95 z-[80] hidden items-center justify-center p-3 md:p-6" onclick="fecharModal()">
+    <button type="button" aria-label="Fechar foto" class="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-black/60 text-white text-3xl" onclick="event.stopPropagation(); fecharModal()">&times;</button>
+    <button type="button" aria-label="Foto anterior" class="absolute left-2 md:left-6 z-10 w-11 h-11 md:w-14 md:h-14 rounded-full bg-black/60 border border-gray-500 text-white text-2xl" onclick="event.stopPropagation(); mudarFotoModal(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+    <img id="img-modal" src="" alt="Foto ampliada do Espaço Recanto" class="max-w-full max-h-[82vh] rounded-xl shadow-2xl object-contain" onclick="event.stopPropagation()" />
+    <button type="button" aria-label="Próxima foto" class="absolute right-2 md:right-6 z-10 w-11 h-11 md:w-14 md:h-14 rounded-full bg-black/60 border border-gray-500 text-white text-2xl" onclick="event.stopPropagation(); mudarFotoModal(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    <p id="contador-foto" class="absolute bottom-4 text-white text-sm bg-black/60 rounded-full px-4 py-2"></p>
   </div>
 
   <!-- SCRIPT -->
@@ -271,6 +307,22 @@
     function mudarFotoHero(direcao) {
       indiceFotoHero = (indiceFotoHero + direcao + fotosHero.length) % fotosHero.length;
       atualizarFotoHero();
+    }
+
+    function alternarMenuMobile() {
+      const menu = document.getElementById('menu-mobile');
+      const botao = document.querySelector('.mobile-menu-button');
+      const aberto = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden', aberto);
+      botao.setAttribute('aria-expanded', String(!aberto));
+      botao.innerHTML = aberto ? '<i class="fa-solid fa-bars"></i>' : '<i class="fa-solid fa-xmark"></i>';
+    }
+    function fecharMenuMobile() {
+      const menu = document.getElementById('menu-mobile');
+      const botao = document.querySelector('.mobile-menu-button');
+      menu.classList.add('hidden');
+      botao.setAttribute('aria-expanded', 'false');
+      botao.innerHTML = '<i class="fa-solid fa-bars"></i>';
     }
 
     function dataLocalISO(d) {
@@ -529,29 +581,60 @@
     }
 
     const fotos = ['IMG_5826.jpg', 'IMG_5828.jpg', 'IMG_5829.jpg'];
+    let indiceFotoModal = 0;
+    let toqueInicialX = null;
+
+    function abrirFoto(indice) {
+      indiceFotoModal = (indice + fotos.length) % fotos.length;
+      atualizarFotoModal();
+      const modalFoto = document.getElementById('modal-foto');
+      modalFoto.classList.remove('hidden');
+      modalFoto.classList.add('flex');
+    }
+    function atualizarFotoModal() {
+      const url = `${BUCKET_URL}/${fotos[indiceFotoModal]}`;
+      document.getElementById('img-modal').src = url;
+      document.getElementById('contador-foto').textContent = `${indiceFotoModal + 1} / ${fotos.length}`;
+    }
+    function mudarFotoModal(direcao) {
+      indiceFotoModal = (indiceFotoModal + direcao + fotos.length) % fotos.length;
+      atualizarFotoModal();
+    }
     function renderizarGaleria() {
       const container = document.getElementById('grid-fotos');
       container.innerHTML = '';
-      fotos.forEach(arq => {
+      fotos.forEach((arq, indice) => {
         const url = `${BUCKET_URL}/${arq}`;
-        const div = document.createElement('div');
-        div.className = 'relative group overflow-hidden rounded-xl bg-brand-card border border-gray-800 cursor-pointer aspect-video';
-        div.onclick = () => { 
-          document.getElementById('img-modal').src = url; 
-          const modalFoto = document.getElementById('modal-foto');
-          modalFoto.classList.remove('hidden'); 
-          modalFoto.classList.add('flex'); 
-        };
-        div.innerHTML = `<img src="${url}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition" />`;
-        container.appendChild(div);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute('aria-label', `Ampliar foto ${indice + 1}`);
+        button.className = 'relative group overflow-hidden rounded-xl bg-brand-card border border-gray-800 cursor-pointer aspect-video text-left';
+        button.onclick = () => abrirFoto(indice);
+        button.innerHTML = `<img src="${url}" alt="Espaço Recanto" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" /><span class="absolute bottom-2 right-2 rounded-full bg-black/65 text-white px-3 py-1 text-xs"><i class="fa-solid fa-expand mr-1"></i> Ampliar</span>`;
+        container.appendChild(button);
       });
     }
-    
-    function fecharModal() { 
+
+    function fecharModal() {
       const modalFoto = document.getElementById('modal-foto');
-      modalFoto.classList.add('hidden'); 
+      modalFoto.classList.add('hidden');
       modalFoto.classList.remove('flex');
     }
+
+    const modalImagem = document.getElementById('img-modal');
+    modalImagem.addEventListener('touchstart', e => { toqueInicialX = e.changedTouches[0].screenX; }, { passive: true });
+    modalImagem.addEventListener('touchend', e => {
+      if (toqueInicialX === null) return;
+      const deltaX = e.changedTouches[0].screenX - toqueInicialX;
+      if (Math.abs(deltaX) > 45) mudarFotoModal(deltaX < 0 ? 1 : -1);
+      toqueInicialX = null;
+    }, { passive: true });
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('modal-foto').classList.contains('hidden')) return;
+      if (e.key === 'ArrowRight') mudarFotoModal(1);
+      if (e.key === 'ArrowLeft') mudarFotoModal(-1);
+      if (e.key === 'Escape') fecharModal();
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
       btnSubmit.disabled = true;
