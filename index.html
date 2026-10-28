@@ -53,25 +53,25 @@
 
   <!-- NAVEGAÇÃO SUPERIOR -->
   <nav class="fixed top-0 left-0 w-full bg-brand-dark/95 backdrop-blur-md z-50 border-b border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-4 group">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-0 min-h-20 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+      <a href="#" class="flex items-center gap-2 sm:gap-4 group min-w-0 flex-1">
         <!-- Emblema circular "ER" -->
-        <div class="w-14 h-14 rounded-full border-2 border-brand-gold flex items-center justify-center bg-black/40 shadow-inner group-hover:scale-105 transition shrink-0">
-          <span class="font-logo text-brand-gold text-4xl font-normal leading-none pl-0.5 pt-1 select-none">ER</span>
+        <div class="w-14 h-14 sm:w-14 sm:h-14 rounded-full border-2 border-brand-gold flex items-center justify-center bg-black/40 shadow-inner group-hover:scale-105 transition shrink-0">
+          <span class="font-logo text-brand-gold text-3xl sm:text-4xl font-normal leading-none select-none">ER</span>
         </div>
         <!-- Textos do letreiro -->
-        <div class="flex flex-col">
-          <span class="font-extrabold text-xl sm:text-2xl tracking-wider text-white uppercase leading-none">Espaço Recanto</span>
-          <span class="text-xs sm:text-sm text-brand-gold tracking-widest uppercase mt-1 font-medium">O lugar perfeito para lazer e eventos</span>
+        <div class="flex flex-col min-w-0">
+          <span class="font-extrabold text-base sm:text-2xl tracking-wide sm:tracking-wider text-white uppercase leading-tight">Espaço Recanto</span>
+          <span class="text-[9px] sm:text-sm text-brand-gold tracking-wide sm:tracking-widest uppercase mt-1 font-medium leading-tight">O lugar perfeito para lazer e eventos</span>
         </div>
       </a>
-      <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium text-gray-300">
-        <a href="#agendar" class="hover:text-brand-gold transition flex items-center gap-1.5">
+      <div class="flex items-center justify-between sm:justify-end gap-x-3 sm:gap-x-6 gap-y-2 flex-wrap w-full sm:w-auto text-[11px] sm:text-sm font-medium text-gray-300">
+        <a href="#agendar" class="hover:text-brand-gold transition flex items-center gap-1 sm:gap-1.5 whitespace-nowrap">
           <i class="fa-regular fa-calendar-days text-brand-gold"></i> Agende seu Horário!
         </a>
-        <a href="#sobre" class="hover:text-brand-gold transition hidden sm:inline-block">Sobre Nosso Espaço</a>
-        <a href="#galeria" class="hover:text-brand-gold transition hidden md:inline-block">Galeria de Fotos</a>
-        <button type="button" onclick="abrirDiretoria()" class="bg-brand-gold text-black px-4 py-2.5 rounded-full font-bold text-xs hover:bg-brand-goldHover transition uppercase tracking-wider shadow-md">
+        <a href="#sobre" class="hover:text-brand-gold transition whitespace-nowrap">Sobre Nosso Espaço</a>
+        <a href="#galeria" class="hover:text-brand-gold transition whitespace-nowrap">Galeria de Fotos</a>
+        <button type="button" onclick="abrirDiretoria()" class="bg-brand-gold text-black px-3 sm:px-4 py-2 rounded-full font-bold text-[10px] sm:text-xs hover:bg-brand-goldHover transition uppercase tracking-wider shadow-md whitespace-nowrap">
           Diretoria
         </button>
       </div>
