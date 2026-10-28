@@ -577,6 +577,37 @@
       }
     }
 
+    async function atualizarStatusAgendamento(id, novoStatus, botao) {
+      if (!id) {
+        alert('Este pedido não possui um identificador válido para atualização.');
+        return;
+      }
+
+      const textoOriginal = botao.textContent;
+      botao.disabled = true;
+      botao.textContent = 'Salvando...';
+
+      try {
+        const { data, error } = await _supabase
+          .from('agendamentos')
+          .update({ status: novoStatus })
+          .eq('id', id)
+          .select('id, status');
+
+        if (error) throw error;
+        if (!data || data.length === 0) {
+          throw new Error('O Supabase não confirmou a alteração. Verifique as permissões de atualização (RLS) da tabela agendamentos.');
+        }
+
+        await carregarAgendamentos();
+      } catch (err) {
+        console.error('Erro ao atualizar status do agendamento:', err);
+        alert('Não foi possível atualizar a solicitação. Verifique as permissões de atualização da tabela no Supabase. ' + (err.message || ''));
+        botao.disabled = false;
+        botao.textContent = textoOriginal;
+      }
+    }
+
     async function carregarAgendamentos() {
       const lista = document.getElementById('lista-agendamentos');
       const mensagem = document.getElementById('mensagem-diretoria');
@@ -630,6 +661,32 @@
           whatsappEl.textContent = `WhatsApp: ${item.whatsapp || 'Não informado'}`;
 
           card.append(nome, dataEl, statusEl, tipoEl, whatsappEl);
+
+          const statusAtual = String(item.status || 'Pendente').trim().toLowerCase();
+          if (statusAtual === 'pendente' && item.id !== undefined && item.id !== null) {
+            const acoes = document.createElement('div');
+            acoes.className = 'flex flex-wrap gap-3 mt-4';
+
+            const aceitar = document.createElement('button');
+            aceitar.type = 'button';
+            aceitar.className = 'bg-green-600 hover:bg-green-500 text-white font-bold text-sm px-4 py-2 rounded-lg transition disabled:opacity-50';
+            aceitar.textContent = 'Aceitar solicitação';
+            aceitar.addEventListener('click', () => atualizarStatusAgendamento(item.id, 'Aceita', aceitar));
+
+            const recusar = document.createElement('button');
+            recusar.type = 'button';
+            recusar.className = 'bg-red-600 hover:bg-red-500 text-white font-bold text-sm px-4 py-2 rounded-lg transition disabled:opacity-50';
+            recusar.textContent = 'Recusar solicitação';
+            recusar.addEventListener('click', () => {
+              if (confirm('Tem certeza de que deseja recusar esta solicitação?')) {
+                atualizarStatusAgendamento(item.id, 'Recusada', recusar);
+              }
+            });
+
+            acoes.append(aceitar, recusar);
+            card.appendChild(acoes);
+          }
+
           lista.appendChild(card);
         });
       } catch (err) {
