@@ -482,9 +482,22 @@
         });
         if (error) throw error;
         if (!data || data.success !== true) { alert('Data ocupada.'); btnSubmit.disabled = false; return; }
-        document.getElementById('form-agendamento').classList.add('hidden');
-        document.getElementById('reserva-data-confirmada').textContent = dataLegivel(inputData.value);
-        document.getElementById('sucesso-reserva').classList.remove('hidden');
+
+        // Abre o WhatsApp somente depois que o agendamento for registrado com sucesso.
+        const nomeCliente = document.getElementById('nome_cliente').value.trim();
+        const whatsappCliente = document.getElementById('whatsapp').value.trim();
+        const tipoEvento = document.getElementById('tipo_evento').value;
+        const dataEvento = dataLegivel(inputData.value);
+        const mensagemWhatsApp =
+          `Olá! Gostaria de solicitar um agendamento no Espaço Recanto.\n\n` +
+          `Nome: ${nomeCliente}\n` +
+          `Meu WhatsApp: ${whatsappCliente}\n` +
+          `Data do evento: ${dataEvento}\n` +
+          `Tipo de evento: ${tipoEvento}\n\n` +
+          `Aguardo o retorno para confirmar os detalhes. Obrigado(a)!`;
+        const urlWhatsApp = `https://wa.me/5562996898356?text=${encodeURIComponent(mensagemWhatsApp)}`;
+
+        window.location.href = urlWhatsApp;
       } catch (err) {
         alert('Erro ao enviar agendamento.');
         btnSubmit.textContent = 'Confirmar e Solicitar Agendamento'; btnSubmit.disabled = false;
